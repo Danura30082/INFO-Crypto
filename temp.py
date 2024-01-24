@@ -1,2 +1,1 @@
-str= ord("🍔")
-print(str)
+
