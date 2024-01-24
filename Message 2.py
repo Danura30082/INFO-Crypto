@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 dict = ["le", "de", "un", "être", "et", "à", "il", "avoir", "ne", "je", "son", "que", "se", "qui", "ce", "dans", "en", "du", "elle", "au", "bonjour"]
 #dict = ["Bonjour"]
 path=r'.\Message Codee\message1.txt'
-max_width = 500
-
+delta = 500
+possible_delta=[]
 def open_file(path):
     with open(path, 'r',encoding='utf-8') as file:
         np.array(file)
@@ -14,27 +14,21 @@ def open_file(path):
     #print(message)
     return message
 
-def brutforce_Scytale(message, max_width = 500):
-    current_width = 1
-    possible_width = []
-    if max_width > len(message): # si la largeur maximale est plus grande que la longueur du message, on la réduit
-        max_width = len(message)
-        
-    for current_width in range (max_width): # on teste toutes les largeurs possibles
+def brutforce_Cesar(message,delta):
+    for loop in range(delta):
         newmessage = ""
         word_count = 0
-        for loop in range(current_width): # on crée une nouvelle chaîne de caractère avec le message décalé
-            newmessage += message[loop::current_width]
+        for letter in message:
+            newmessage += chr(ord(letter)+loop)
         List_Word = newmessage.split()
-        for word in List_Word: # on compte le nombre de mots dans le message qui correspondent à un mot du dictionnaire
+        for word in List_Word:
             if word in dict:
                 word_count += 1
         if word_count != 0:
-            possible_width.append((current_width, word_count))
-            print(current_width, word_count)
-        
-        current_width += 1
-    return possible_width
+            possible_delta.append((loop, word_count))
+            print(loop, word_count)
+    return possible_delta
+    
 
 def plot (possible_width):
     for width, count in possible_width:
@@ -48,9 +42,9 @@ def decode(message, width):
     return newmessage
 
 message = open_file(path)
-possible_width = brutforce_Scytale(message, max_width)
-plot(possible_width)
-most_likely = max(possible_width, key=lambda x: x[1])[0]
+possible_delta = brutforce_Cesar(message, delta)
+plot(possible_delta)
+most_likely = max(possible_delta, key=lambda x: x[1])[0]
 print(most_likely)
 print(decode(message, most_likely))
 if input("Do you want to save the result ? (y/n)") == "y":

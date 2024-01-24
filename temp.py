@@ -1,3 +1,2 @@
-stri="bonjour"
-print(stri[::3])
-print(stri[1::3])
+str= ord("🍔")
+print(str)

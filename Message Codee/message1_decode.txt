@@ -1,0 +1,22 @@
+Bienvenue !
+
+Le but de cette UE est de réussir déchiffrer par vous-mêmes une série de messages chiffrés. Cela peut paraître intimidant de prime abord, mais le jeu en vaut la chandelle. Et n'oubliez pas que vous pouvez utiliser un ordinateur pour vous assister dans les calculs ! Bien sûr, il est aussi possible de faire appel à mon assistance mais je ne donnerai pas les réponses, je ne peux que vous aiguiller ou répondre à des techniques précises. Je ne ferai pas non plus de la relecture de code, merci de corriger vous-même les erreurs basiques de programmation. En particulier celles qui vous sont indiquées par l'ordinateur.
+
+Tout les fichiers textes sont en encodés en Unicode (UTF-8). Si vous utilisez Python, je recommande d'utiliser les versions récentes (Python 3.x) qui supportent de manière native l'unicode dans les chaînes de caractère. Cela inclut donc tous les caractères spéciaux possibles et imaginables, y compris les langues étrangères, les symboles mathématiques comme *infini*, ou les emojis *smiley*. Cela évitera un certain nombre de maux de tête liés à l'encodage. Si vous y tenez absolument, et que vous maîtrisez ce que vous faites, il est possible d'utiliser un autre langage de programmation, mais c'est à vos risques et péril *skull*, et je n'assurerai pas de support technique. Dans tous les cas, il faudra commenter votre code, et sachez qu'il vous sera demander de l'expliquer à la fin ainsi que votre démarche.
+
+Le principe est que la série de messages à déchiffrer est rangée par ordre croissant de difficulté. Il est donc fortement conseiller de les aborder dans l'ordre. Votre but est d'essayer d'arriver le plus loin possible dans le déchiffrement de cette série de messages.
+
+Le message suivant a été crypté en utilisant un chiffre de César. Cela signifie qu'on a juste décalé l'alphabet d'un nombre fixe (mais secret) appelé la clé. Par exemple, si on décalait l'alphabet de 3 lettres, on remplacerait a par d, puis b par e, c par f, d par g, e par h et ainsi de suite jusqu'à arriver à w qui est remplacé par z. Et pour les lettres suivante, on revient au début de l'alphabet, ainsi x est remplacé par a, y par b et z par c.
+
+Le chiffre de César doit son nom à Jules César qui, selon Suétone, l'utilisait avec l'alphabet grec et un décalage de trois sur la droite pour certaines de ses correspondances secrètes, notamment militaires :
+
+« Il y employait, pour les choses tout à fait secrètes, une espèce de chiffre qui en rendait le sens inintelligible (les lettres étant disposées de manière à ne pouvoir jamais former un mot), et qui consistait, je le dis pour ceux qui voudront les déchiffrer, à changer le rang des lettres dans l'alphabet, en écrivant la quatrième pour la première, c'est-à-dire le d pour le a, et ainsi de suite. »
+
+— Suétone, Vie des douze Césars, Livre I, paragraphe 56.
+
+Dans notre cas, l'alphabet ne se limite pas aux 26 lettres mais contient toute la liste des symboles de l'Unicode, dont les chiffres, les lettres minuscules, majuscules, les espaces, sauts de ligne, ponctuation, les symboles divers, les alphabets d'autres langues, les emojis etc. Chaque symbole possède une numéro dans la table de caractères unicodes. Pour obtenir le numéro d'un caractère on peut utiliser en python la fonction ord. Par exemple ord('a') vaut 97, ord('z') vaut 125, ord('A') vaut 65, ord('#') vaut 35 et ord('*hamburger*') vaut 127828 (attention : il est nécessaire d'utiliser Python 3 ici, dans Python 2 l'instruction ord('*hamburger*') provoque une erreur :  ord() expected a character, but string of length 4 found). Réciproquement, pour obtenir le symbole numéroté par l'entier n dans la table, on peut utilisé la fonction chr. Ainsi, chr(97) retourne le caractère 'a' et chr(125) retourne le caractère 'z'. Si on effectue un décalage de 3 sur tout le tableau des caractères unicodes, les lettres de la fin de l'alphabet sont envoyées sur les symboles qui suivent dans la table Unicode, par exemple la lettre minuscule 'x' est envoyée sur le symbole '{', la lettre 'y' est envoyé sur la barre verticale '|', et enfin 'z' est envoyé sur '}'.
+
+À vous de jouer désormais. Il ne vous reste qu'à trouver la clé qui a été utilisée pour le message suivant. Cela ne posera aucune difficulté pour l'ordinateur (tandis que le travail serait très fastidieux à la main). Bonne chance !
+
+--
+Joël
