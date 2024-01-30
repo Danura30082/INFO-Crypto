@@ -15,7 +15,7 @@ def find_smallest_char(message):
                 smallest_char_odd = ord(message[letter_index])     
     return smallest_char_even, smallest_char_odd
 
-def brutforce_Cesar(message,key=500):
+def brutforce_Even_Odd_Cesar(message,key=500):
     possible_key=[]
     smallest_even_key, smallest_odd_key = find_smallest_char(message) # on cherche le plus petit caractère du message
     for current_odd_key in range(-smallest_odd_key,key-smallest_odd_key):
@@ -52,7 +52,7 @@ def decode(message, key):
     return newmessage
 
 def Even_Odd_Cesar(message, key=10):
-    possible_key = brutforce_Cesar(message, key)
+    possible_key = brutforce_Even_Odd_Cesar(message, key)
     if possible_key: #check if possible_key is not empty
         most_likely = find_most_likely(possible_key)
         return decode(message, most_likely), possible_key

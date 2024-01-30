@@ -7,13 +7,13 @@ def save(message, File_name = None):
         if input("Do you want to save the result ? (y/n)") == "y":
             print("File number?")
             number = input()
-            with open('.\\Message Codee\\message{}_decode.txt'.format(number), 'w',encoding='utf-8') as file:
+            with open('.\\Message\\message{}_decode.txt'.format(number), 'w',encoding='utf-8') as file:
                 file.write(message)
             print("File saved")
         exit()
             
     else:
-        with open('.\\Message Codee\\{}'.format(File_name), 'w',encoding='utf-8') as file:
+        with open('.\\Message\\{}'.format(File_name), 'w',encoding='utf-8') as file:
             file.write(message)
         print("File saved")
 
