@@ -1,14 +1,11 @@
 # Description: This file contains the functions to decode a message encoded with a Cesar algorithm with a different unknown key for even and odd letters
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely, common_word_list
-
-
+from common import open_file, save, find_most_likely,number_of_words, common_word_list
 
 
 
 def find_smallest_char(message):
     smallest_char_even, smallest_char_odd = ord(message[0]), ord(message[1])
-    smallest_char = ord(message[0])
     for letter_index in range(len(message)):
         if letter_index%2 == 0:
             if ord(message[letter_index]) < smallest_char_even:
@@ -31,10 +28,7 @@ def brutforce_Cesar(message,key=500):
                 else:
                     current_key = current_odd_key
                 newmessage += chr(max(ord(message[letter_index])+current_key,0))
-            List_Word = newmessage.split()
-            for word in List_Word:
-                if word in common_word_list:
-                    word_count += 1
+            word_count = number_of_words(newmessage)
             if word_count != 0:
                 possible_key.append(((current_even_key,current_odd_key), word_count))
                 print("Key = ",(current_even_key,current_odd_key)," Word count = ", word_count)

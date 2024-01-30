@@ -28,3 +28,11 @@ def open_file(path):
 def find_most_likely(possible_width):
     most_likely = max(possible_width, key=lambda x: x[1])[0]
     return most_likely
+
+def number_of_words(message):
+    word_count = 0
+    List_Word = message.split()
+    for word in List_Word:
+        if word in common_word_list:
+            word_count += 1
+    return word_count

@@ -1,6 +1,6 @@
 # Description: This file contains the functions to decode a message encoded with a Scytale algorithm with an unknown key
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely, common_word_list
+from common import open_file, save, find_most_likely,number_of_words, common_word_list
 
 
 
@@ -15,10 +15,8 @@ def brutforce_Scytale(message, max_key = 500):
         word_count = 0
         for loop in range(current_key): # on crée une nouvelle chaîne de caractère avec le message décalé
             newmessage += message[loop::current_key]
-        List_Word = newmessage.split()
-        for word in List_Word: # on compte le nombre de mots dans le message qui correspondent à un mot du dictionnaire
-            if word in common_word_list:
-                word_count += 1
+            
+        word_count = number_of_words(newmessage)
         if word_count != 0:
             possible_key.append((current_key, word_count))
             print("Key = ",current_key," Word count = ", word_count)

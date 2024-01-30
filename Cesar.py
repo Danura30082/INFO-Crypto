@@ -1,6 +1,6 @@
 # Description: This file contains the functions to decode a message encoded with a Cesar algorithm with an unknown key
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely, common_word_list
+from common import open_file, save, find_most_likely,number_of_words, common_word_list
 
 
 
@@ -21,10 +21,9 @@ def brutforce_Cesar(message,key=500):
         word_count = 0
         for letter in message:
             newmessage += chr(ord(letter)+current_key)
-        List_Word = newmessage.split()
-        for word in List_Word:
-            if word in common_word_list:
-                word_count += 1
+            
+        word_count = number_of_words(newmessage)
+        
         if word_count != 0:
             possible_key.append((current_key, word_count))
             print("Key = ",current_key," Word count = ", word_count)
