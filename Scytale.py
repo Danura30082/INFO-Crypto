@@ -1,9 +1,8 @@
-
-import numpy as np
+# Description: This file contains the functions to decode a message encoded with a Scytale algorithm with an unknown key
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely
+from common import open_file, save, find_most_likely, common_word_list
 
-common_word_list = ["le", "de", "un", "être", "et", "à", "il", "avoir", "ne", "je", "son", "que", "se", "qui", "ce", "dans", "en", "du", "elle", "au", "bonjour"]
+
 
 def brutforce_Scytale(message, max_key = 500):
     current_key = 1
@@ -47,7 +46,7 @@ def Scytale(message,key=500):
         raise ValueError("No Word found in decoded message \n Try to increase max_key, changing algorithm or increasingt the size of the dictionary")
     
 if __name__ == "__main__":
-    path=r'.\Message Codee\message1.txt'
+    path=r'.\Message\message1.txt'
     message = open_file(path)
     message_decode, possible_key = Scytale(message)
     plot(possible_key)

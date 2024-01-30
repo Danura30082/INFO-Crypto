@@ -1,8 +1,6 @@
-
-import numpy as np
+# Description: This file contains the functions to decode a message encoded with a Cesar algorithm with a different unknown key for even and odd letters
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely
-common_word_list = ["le", "de", "un", "être", "et", "à", "il", "avoir", "ne", "je", "son", "que", "se", "qui", "ce", "dans", "en", "du", "elle", "au", "bonjour"]
+from common import open_file, save, find_most_likely, common_word_list
 
 
 
@@ -39,7 +37,7 @@ def brutforce_Cesar(message,key=500):
                     word_count += 1
             if word_count != 0:
                 possible_key.append(((current_even_key,current_odd_key), word_count))
-                # print("Key = ",(current_even_key,current_odd_key)," Word count = ", word_count)
+                print("Key = ",(current_even_key,current_odd_key)," Word count = ", word_count)
     return possible_key
     
 
@@ -59,7 +57,7 @@ def decode(message, key):
         newmessage += chr(ord(message[letter_index]) + current_key)
     return newmessage
 
-def Cesar(message, key=10):
+def Even_Odd_Cesar(message, key=10):
     possible_key = brutforce_Cesar(message, key)
     if possible_key: #check if possible_key is not empty
         most_likely = find_most_likely(possible_key)
@@ -68,9 +66,9 @@ def Cesar(message, key=10):
         raise ValueError("No Word found in decoded message \n Try to increase key, changing algorithm or increasingt the size of the dictionary")
     
 if __name__ == "__main__":
-    path=r'.\Message Codee\message4.txt'
+    path=r'.\Message\message4.txt'
     message = open_file(path)
-    message_decode, possible_key = Cesar(message,50)
+    message_decode, possible_key = Even_Odd_Cesar(message,50)
     plot(possible_key)
     save(message_decode)
     #plt.pause(1000)

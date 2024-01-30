@@ -1,4 +1,6 @@
+# Description: Common functions for the Code breaking project
 import numpy as np
+common_word_list = ["le", "de", "un", "être", "et", "à", "il", "avoir", "ne", "je", "son", "que", "se", "qui", "ce", "dans", "en", "du", "elle", "au", "bonjour","joël"]
 
 def save(message, File_name = None):
     if File_name==None:
@@ -22,6 +24,7 @@ def open_file(path):
         message = file.read() # chaîne de caractère avec le contenu du fichier
     #print(message)
     return message
+
 def find_most_likely(possible_width):
     most_likely = max(possible_width, key=lambda x: x[1])[0]
     return most_likely

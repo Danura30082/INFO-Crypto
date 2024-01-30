@@ -1,8 +1,6 @@
-
-import numpy as np
+# Description: This file contains the functions to decode a message encoded with a Cesar algorithm with an unknown key
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely
-common_word_list = ["le", "de", "un", "être", "et", "à", "il", "avoir", "ne", "je", "son", "que", "se", "qui", "ce", "dans", "en", "du", "elle", "au", "bonjour"]
+from common import open_file, save, find_most_likely, common_word_list
 
 
 
@@ -54,15 +52,16 @@ def Cesar(message, key=500):
     
 if __name__ == "__main__":
     
-    path=r'.\Message Codee\message2.txt'
+    path=r'.\Message\message2.txt'
     message = open_file(path)
-    message_decode, possible_key = Cesar(message)
+    message_decode2, possible_key = Cesar(message)
     #plot(possible_key)
-    save(message_decode)
+    
     #plt.pause(1000)
-    path=r'.\Message Codee\message3.txt'
+    path=r'.\Message\message3.txt'
     message = open_file(path)
-    message_decode, possible_key = Cesar(message)
-    save(message_decode)
+    message_decode3, possible_key = Cesar(message)
+    save(message_decode2)
+    save(message_decode3)
     
 # à partir d'ici, le fichier est fermé
