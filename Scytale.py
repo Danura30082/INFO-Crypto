@@ -1,7 +1,6 @@
 # Description: This file contains the functions to decode a message encoded with a Scytale algorithm with an unknown key
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely,number_of_words, common_word_list
-
+from common import open_file, save, find_most_likely,number_of_words
 
 
 def brutforce_Scytale(message, max_key = 500):

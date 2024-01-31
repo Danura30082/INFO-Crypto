@@ -1,9 +1,6 @@
 # Description: This file contains the functions to decode a message encoded with a Vignere algorithm with a different unknown key for even and odd letters
-import numpy as np
-from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely,number_of_words, common_word_list
-import itertools
+from common import open_file, save, find_most_likely,number_of_words
 
 def find_smallest_char(message, key_length = 1):
     smallest_key = [ord(message[i]) for i in range(key_length)]
@@ -46,17 +43,24 @@ def find_Vigenere_key_length(message, max_key_length = 100):
     return gcd_value
 
 def brutforce_Vigenere(message,key_length,smallest_char,max_key):
-    possible_key=[]  
-    for current_key in itertools.product(range(max_key), repeat=key_length):
-        for loop in range (len(smallest_char)):
-            current_key = list(current_key)
-            current_key[loop] = current_key[loop]-smallest_char[loop]
+    def next_key(key, boundary):
+        key[0] += 1
+        for k in range(len(key)-1):# k is negative. done here for readability
+            if key[k]>boundary[k][1]:
+                key[k] = boundary[k][0]
+                key[k+1] += 1
+        return key
+    possible_key=[]
+    boundary =[(-smallest_char[k],max_key-smallest_char[k]) for k in range(key_length)]
+    current_key = [boundary[k][0] for k in range(len(boundary))]
+    end_condition = [boundary[k][1] for k in range(len(boundary))]
+    while current_key != end_condition:
+        current_key = next_key(current_key,boundary)
         decoded_message = decode(message, current_key)
         word_count = number_of_words(decoded_message)
-        if word_count != 0:
-            possible_key.append((current_key,word_count))
+        if word_count >= 10:
+            possible_key.append((current_key.copy(),word_count))
             print("Key = ",current_key," Word count = ", word_count)
-            
     return possible_key
     
 
@@ -75,7 +79,7 @@ def plot (possible_key):
     for i in range(len(possible_key)):
         plt.plot(i, possible_key[i][1], 'r.')
     plt.show(block=False)
-    plt.pause(1000)
+    
 
 def decode(message, key):
     newmessage = ""
@@ -91,9 +95,11 @@ if __name__ == "__main__":
     try:
         decoded_message, possible_key = Vigenere(message,max_key,max_key_length)
         print(find_most_likely(possible_key))
+        print(possible_key)
         plot(possible_key)
         save(decoded_message)
+        plt.pause(1000)
+        
         
     except ValueError as error:
         print(error)
-    

@@ -1,6 +1,6 @@
 # Description: This file contains the functions to decode a message encoded with a Cesar algorithm with a different unknown key for even and odd letters
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely,number_of_words, common_word_list
+from common import open_file, save, find_most_likely,number_of_words
 
 
 
