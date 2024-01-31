@@ -1,6 +1,6 @@
 # Description: Common functions for the Code breaking project
 import numpy as np
-common_word_list = ["le", "de", "un", "être", "et", "à", "il", "avoir", "ne", "je", "son", "que", "se", "qui", "ce", "dans", "en", "du", "elle", "au", "bonjour","joël"]
+common_word_list = ["le", "de", "un", "être", "et", "à", "il", "avoir", "ne", "je", "son", "que", "se", "qui", "ce", "dans", "en", "du", "elle", "au", "bonjour","Joël","--"]
 
 def save(message, File_name = None):
     if File_name==None:

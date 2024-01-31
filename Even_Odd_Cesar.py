@@ -51,7 +51,7 @@ def decode(message, key):
         newmessage += chr(ord(message[letter_index]) + current_key)
     return newmessage
 
-def Even_Odd_Cesar(message, key=10):
+def Even_Odd_Cesar(message, key=50):
     possible_key = brutforce_Even_Odd_Cesar(message, key)
     if possible_key: #check if possible_key is not empty
         most_likely = find_most_likely(possible_key)
@@ -67,4 +67,3 @@ if __name__ == "__main__":
     save(message_decode)
     #plt.pause(1000)
     
-# à partir d'ici, le fichier est fermé

@@ -3,6 +3,7 @@ from common import open_file, save
 from Scytale import Scytale
 from Cesar import Cesar
 from Even_Odd_Cesar import Even_Odd_Cesar
+from Vigenere import Vigenere
 
 message_path=[]
 message_decode_path=[]
@@ -10,7 +11,7 @@ for loop in range(1,9):
     message_path.append('.\\Message\\message{}.txt'.format(loop))
     message_decode_path.append('message{}_decode.txt'.format(loop))
 
-decoding_functions = [Scytale, Cesar, Cesar, Even_Odd_Cesar]
+decoding_functions = [Scytale, Cesar, Cesar, Even_Odd_Cesar,Vigenere]
 
 for message_num, decode_func in enumerate(decoding_functions):
     try:
