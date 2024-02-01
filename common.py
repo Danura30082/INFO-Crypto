@@ -7,10 +7,11 @@ def save(message, File_name = None):
         if input("Do you want to save the result ? (y/n)") == "y":
             print("File number?")
             number = input()
-            with open('.\\Message\\message{}_decode.txt'.format(number), 'w',encoding='utf-8') as file:
+            with open('.\\Message\\decoded_message\\decoded_message{}.txt'.format(number), 'w',encoding='utf-8') as file:
                 file.write(message)
             print("File saved")
-        exit()
+        else:
+            print("File NOT saved")
             
     else:
         with open('.\\Message\\{}'.format(File_name), 'w',encoding='utf-8') as file:
@@ -36,3 +37,19 @@ def number_of_words(message):
         if word in common_word_list:
             word_count += 1
     return word_count
+
+def frequency_analysis(message):
+    char_count = {}
+    for letter in message:
+        if letter in char_count:
+            char_count[letter] += 1
+        else:
+            char_count[letter] = 1
+    sorted_items = sorted(char_count.items(), key=lambda item: item[1], reverse=True)
+    first_common_char = sorted_items[0][0]
+    secound_common_char = sorted_items[1][0]
+    if ord(" ") - ord(first_common_char) == ord("e") - ord(secound_common_char):  #check if the most common character is space and the secound most common is an 'e'
+        key =  ord(" ") - ord(first_common_char)
+        return key 
+    else:
+        raise ValueError("The message is probably not encoded with a Cesar algorithm/n the most common characters are not space or an 'e' in that order")
