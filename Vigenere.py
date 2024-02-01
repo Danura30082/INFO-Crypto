@@ -1,13 +1,6 @@
 # Description: This file contains the functions to decode a message encoded with a Vignere algorithm with a different unknown key for even and odd letters
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely,number_of_words
-
-def find_smallest_char(message, key_length = 1):
-    smallest_key = [ord(message[i]) for i in range(key_length)]
-    for letter_index in range(len(message)): # on parcourt le message
-        if ord(message[letter_index]) < smallest_key[letter_index%key_length]:
-            smallest_key[letter_index%key_length] = ord(message[letter_index])
-    return smallest_key
+from common import open_file, save, frequency_analysis
 
 def find_Vigenere_key_length(message, max_key_length = 100, distance = 1): 
     def gcd(a, b):
@@ -47,43 +40,15 @@ def find_Vigenere_key_length(message, max_key_length = 100, distance = 1):
     print ("Most likely key length : ",gcd_value)
     return gcd_value
 
-def brutforce_Vigenere(message,key_length,smallest_char,max_key):
-    def next_key(key, boundary):
-        key[0] += 1
-        for k in range(len(key)-1):# k is negative. done here for readability
-            if key[k]>boundary[k][1]:
-                key[k] = boundary[k][0]
-                key[k+1] += 1
-        return key
-    possible_key=[]
-    boundary =[(-smallest_char[k],max_key-smallest_char[k]) for k in range(key_length)]
-    current_key = [boundary[k][0] for k in range(len(boundary))]
-    end_condition = [boundary[k][1] for k in range(len(boundary))]
-    while current_key != end_condition:
-        current_key = next_key(current_key,boundary)
-        decoded_message = decode(message, current_key)
-        word_count = number_of_words(decoded_message)
-        if word_count >= 10:
-            possible_key.append((current_key.copy(),word_count))
-            print("Key = ",current_key," Word count = ", word_count)
-    return possible_key
-    
 
-
-def Vigenere(message, max_key=15, max_key_length=100):
+def Vigenere(message, max_key_length=100):
     key_lenth=find_Vigenere_key_length(message, max_key_length)
-    smallest_char = find_smallest_char(message, key_lenth)
-    possible_key = brutforce_Vigenere(message,key_lenth,smallest_char, max_key)
-    if possible_key: #check if possible_key is not empty
-        most_likely = find_most_likely(possible_key)
-        return decode(message, most_likely), possible_key
-    else:
-        raise ValueError("No Word found in decoded message \n Try to increase key, changing algorithm or increasingt the size of the dictionary")
-    
-def plot (possible_key):
-    for i in range(len(possible_key)):
-        plt.plot(i, possible_key[i][1], 'r.')
-    plt.show(block=False)
+    separated_message = [] #list of messages separated by key length
+    key=[]
+    for i in range(key_lenth):
+        separated_message.append(message[i::key_lenth])
+        key.append(frequency_analysis(separated_message[i]))
+    return decode(message, key), key
     
 
 def decode(message, key):
@@ -94,16 +59,28 @@ def decode(message, key):
 
     
 if __name__ == "__main__":
+    path=r'.\Message\message4.txt'
+    message = open_file(path)
+    decoded_message, key = Vigenere(message)
+    print(key)
+    save(decoded_message)
+    
     path=r'.\Message\message5.txt'
     message = open_file(path)
-    max_key, max_key_length = 11, 100
-    try:
-        decoded_message, possible_key = Vigenere(message,max_key,max_key_length)
-        print(find_most_likely(possible_key))
-        plot(possible_key)
-        save(decoded_message)
-        plt.pause(1000)
-        
-        
-    except ValueError as error:
-        print(error)
+    decoded_message, key = Vigenere(message)
+    print(key)
+    save(decoded_message)
+    
+    path=r'.\Message\message6.txt' 
+    message = open_file(path)
+    decoded_message, key = Vigenere(message)
+    print(key)
+    save(decoded_message)
+    
+    
+    #doesn't quite work
+    """ path=r'.\Message\message7.txt'
+    message = open_file(path)
+    decoded_message, key = Vigenere(message)
+    print(key)
+    save(decoded_message) """

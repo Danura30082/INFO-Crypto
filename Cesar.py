@@ -1,6 +1,6 @@
 # Description: This file contains the functions to decode a message encoded with a Cesar algorithm with an unknown key
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely,number_of_words, frequency_analysis
+from common import open_file, save, frequency_analysis
 
 
 def decode(message, key):

@@ -52,4 +52,5 @@ def frequency_analysis(message):
         key =  ord(" ") - ord(first_common_char)
         return key 
     else:
+        print(ord(" ") - ord(first_common_char), ord("e") - ord(secound_common_char))
         raise ValueError("The message is probably not encoded with a Cesar algorithm/n the most common characters are not space or an 'e' in that order")
