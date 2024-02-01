@@ -1,53 +1,129 @@
 # Description: This file contains the functions to decode a message encoded with a Scytale algorithm with an unknown key
 import matplotlib.pyplot as plt
-from common import open_file, save, find_most_likely,number_of_words
+from common import open_file, save
+common_word_list = ["le", "de", "un", "être", "et", "à", "il", "avoir", "ne", "je", "son", "que", "se", "qui", "ce", "dans", "en", "du", "elle", "au", "bonjour","Joël","--"]
 
+def find_most_likely(possible_width):
+    """
+    Finds the most likely key from a list of possible keys.
 
-def brutforce_Scytale(message, max_key = 500):
+    Args:
+        possible_width (list): A list of tuples containing possible widths and their corresponding scores.
+
+    Returns:
+        int: The most likely width.
+    """
+    most_likely = max(possible_width, key=lambda x: x[1])[0]
+    return most_likely
+
+def number_of_words(message):
+    """
+    Counts the number of common words in a given message.
+
+    Parameters:
+    message (str): The input message to count the words from.
+
+    Returns:
+    int: The number of common words in the message.
+    """
+    word_count = 0
+    List_Word = message.split()
+    for word in List_Word:
+        if word in common_word_list:
+            word_count += 1
+    return word_count
+
+def brutforce_Scytale(message, max_key):
+    """
+    Brute force method to decrypt a Scytale cipher. It tests all possible key sizes and returns a list of possible keys and their corresponding word count.
+
+    Args:
+        message (str): The encrypted message.
+        max_key (int, optional): The maximum key size to test.
+
+    Returns:
+        list: A list of tuples containing possible keys and the corresponding word count.
+    """
     current_key = 1
     possible_key = []
-    if max_key > len(message): # si la largeur maximale est plus grande que la longueur du message, on la réduit
+    
+    if max_key > len(message):  # if the maximum width is greater than the length of the message, reduce it
         max_key = len(message)
-        
-    for current_key in range (max_key): # on teste toutes les largeurs possibles
-        newmessage = ""
+
+    for current_key in range(max_key):  # test all possible widths
         word_count = 0
-        for loop in range(current_key): # on crée une nouvelle chaîne de caractère avec le message décalé
-            newmessage += message[loop::current_key]
-            
+        
+        newmessage = decode_Scytale(message, current_key)
         word_count = number_of_words(newmessage)
+        
         if word_count != 0:
             possible_key.append((current_key, word_count))
-            print("Key = ",current_key," Word count = ", word_count)
-        
-        current_key += 1
+            print("Key =", current_key, "Word count =", word_count)
+
     return possible_key
 
-def plot (possible_key):
-    for key, count in possible_key:
-        plt.plot(key, count, 'r.')
-    plt.show(block=False)
+
 
 def decode_Scytale(message, key):
+    """
+    Decode a message encrypted using the Scytale cipher.
+
+    Args:
+        message (str): The encrypted message.
+        key (int): The key used for encryption.
+
+    Returns:
+        str: The decoded message.
+    """
     newmessage = ""
+    
     for loop in range(key):
         newmessage += message[loop::key]
     return newmessage
 
-def Scytale(message,key=500):
-    possible_key = brutforce_Scytale(message, key)
+def Scytale(message, max_key=500):
+    """
+    Decode a message encrypted using the Scytale cipher with an unknown key.
+
+    Args:
+        message (str): The message to be decoded.
+        key (int, optional): The key used for the Scytale cipher. Defaults to 500.
+
+    Returns:
+        tuple: A tuple containing the decoded message and the key used for decoding.
+
+    Raises:
+        ValueError: If no word is found in the all possible decoded message. Try increasing the max_key, changing the algorithm, or increasing the size of the dictionary.
+    """
+    possible_key = brutforce_Scytale(message, max_key)
+    
     if possible_key: #check if possible_key is not empty
         most_likely = find_most_likely(possible_key)
-        return decode_Scytale(message, most_likely), possible_key
+        return decode_Scytale(message, most_likely), most_likely
     else:
-        raise ValueError("No Word found in decoded message \n Try to increase max_key, changing algorithm or increasingt the size of the dictionary")
+        raise ValueError("No word found in all possible decoded message. Try to increase max_key, changing algorithm, or increasing the size of the dictionary")
     
 if __name__ == "__main__":
+    
+    # decode the message and save it
+    
     path=r'.\Message\message1.txt'
     message = open_file(path)
-    message_decode, possible_key = Scytale(message)
-    plot(possible_key)
-    save (message_decode)
-    plt.pause(1000)
+    decoded_message, key = Scytale(message)
+    save (decoded_message)
     
-# à partir d'ici, le fichier est fermé
+    
+    
+# def plot(possible_key):
+#     """
+#     Plot the possible key values. It is non-blocking, so the program will continue to run after the plot is shown.
+
+#     Parameters:
+#     possible_key (list): A list of tuples containing the key and count values.
+
+#     Returns:
+#     None
+#     """
+#     for key, count in possible_key:
+#         plt.plot(key, count, 'r.')
+#     plt.show(block=False)
