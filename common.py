@@ -81,3 +81,33 @@ def frequency_analysis(message):
               ord("e") - ord(secound_common_char))
         raise ValueError(
             "The message is probably not encoded with a Cesar algorithm/n the most common characters are not space or an 'e' in that order")
+
+
+def frequency_analysis_no_safety(message):
+    """
+    Performs frequency analysis on a given message to determine the key used in a Caesar cipher.
+
+    Args:
+        message (str): The message to analyze.
+
+    Returns:
+        int: The key used in the Caesar cipher.
+
+    Raises:
+        ValueError: If the message is not encoded with a Caesar algorithm or the most common characters are not space or 'e' in that order.
+    """
+
+    char_count = {}
+    for letter in message:
+        if letter in char_count:
+            char_count[letter] += 1
+        else:
+            char_count[letter] = 1
+    sorted_items = sorted(char_count.items(),
+                          key=lambda item: item[1], reverse=True)
+    first_common_char = sorted_items[0][0]
+    secound_common_char = sorted_items[1][0]
+    
+    # check if the most common character is space and the secound most common is an 'e'
+    key = ord(" ") - ord(first_common_char)
+    return key
