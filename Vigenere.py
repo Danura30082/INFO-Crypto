@@ -53,8 +53,9 @@ def find_Vigenere_key_length(message, distance, max_key_length=100,):
         peaks = []  # list of indices where peaks are found
         for i in range(len(data)):
             # check if the current point is greater than all points within the specified distance
-            if all(data[i] > data[i+k] for k in range(-distance, distance+1) if i+k < len(data) and k != 0):
+            if all(data[i] > data[i+k] for k in range(-distance, distance+1) if i+k < len(data) and k != 0 and i+k >= 0):
                 peaks.append(i)
+                
         if len(peaks) == 0:
             raise ValueError("No peak found in the data")
         return peaks
@@ -101,7 +102,7 @@ def Vigenere(message, max_key_length=100, distance=1):
     Returns:
         tuple: A tuple containing the decoded message and the Vigenere key used.
     """
-    #TODO: fix this. Fuck recurstion
+    #TODO: fix this. Fuck spagettie code. Also Fuck recurstion. Fun fact NASA banned recurtion in there codes because it was too error prone and too difficult for a human to follow/understand.
     if distance <= max_key_length: # a bit of a hack to avoid infinite recursion
         try:
             key_length = find_Vigenere_key_length(message, distance, max_key_length)
@@ -115,9 +116,17 @@ def Vigenere(message, max_key_length=100, distance=1):
         except:
             # if no key is found, try again with a greater distance between peaks.
             print("No key length found with distance =", distance)
-            return Vigenere(message, max_key_length, distance+2)
+            return Vigenere(message, max_key_length, distance*2)
     else:
-        raise ValueError("No key length found \n reassess if the message is long enough or try to increase max_key_length/distance \n check if the message is encoded with a Vigenere algorithm")
+        try:
+            print("here")
+            key_length=find_Vigenere_key_length(message, max_key_length, max_key_length)
+            separated_message, key = [], []
+            for i in range(key_length):
+                separated_message.append(message[i::key_length])
+                key.append(frequency_analysis_no_safety(separated_message[i]))
+        except:
+            raise ValueError("No key length found \n reassess if the message is long enough or try to increase max_key_length/distance \n check if the message is encoded with a Vigenere algorithm")
 
     
         
@@ -167,25 +176,13 @@ if __name__ == "__main__":
     print(key)
     save(decoded_message) """
     
-    """ path=r'.\\Message\\message7.txt' 
+    path=r'.\\Message\\message7.txt' 
     message = open_file(path)
     decoded_message, key = Vigenere(message)
     print(key)
-    save(decoded_message) """
-
-    # doesn't quite work
-    path = '.\\Message\\message7.txt'
-    message = open_file(path)
-    """key_length = 16
-    separated_message, key = [], []
-    for i in range(key_length):
-                separated_message.append(message[i::key_length])
-                key.append(frequency_analysis_no_safety(separated_message[i][:350]))
-                print(key) """
-    key=[-34, -66, -23, -2, -8, -3, -1, -3, -16, -7, -1, -4, -11, -7, -10, -29]
-    decoded_message = decode(message, key)
-    print(decoded_message)
     save(decoded_message)
+
+    
     
     
     # print(key)
