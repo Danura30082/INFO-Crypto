@@ -119,6 +119,7 @@ def Vigenere(message, max_key_length=100, distance=1):
             return Vigenere(message, max_key_length, distance*2)
     else:
         try:
+            #desperate attempt to find the key. this just considers the most common lettre is space and DOESN'T  check if the second most common letter is e
             print("here")
             key_length=find_Vigenere_key_length(message, max_key_length, max_key_length)
             separated_message, key = [], []
@@ -158,29 +159,34 @@ def plot(possible_key):
 
 
 if __name__ == "__main__":
-    """ path=r'.\\Message\\message4.txt'
-    message = open_file(path)
-    decoded_message, key = Vigenere(message)
-    print(key)
-    save(decoded_message)
+    what_to_decode =[True,True,True,True]
+    if what_to_decode[0]:
+        path=r'.\\Message\\message4.txt'
+        message = open_file(path)
+        decoded_message, key = Vigenere(message)
+        print(key)
+        save(decoded_message)
 
-    path=r'.\\Message\\message5.txt'
-    message = open_file(path)
-    decoded_message, key = Vigenere(message)
-    print(key)
-    save(decoded_message) """
-
-    """ path=r'.\\Message\\message6.txt' 
-    message = open_file(path)
-    decoded_message, key = Vigenere(message)
-    print(key)
-    save(decoded_message) """
-    
-    path=r'.\\Message\\message7.txt' 
-    message = open_file(path)
-    decoded_message, key = Vigenere(message)
-    print(key)
-    save(decoded_message)
+    if what_to_decode[1]:
+        path=r'.\\Message\\message5.txt'
+        message = open_file(path)
+        decoded_message, key = Vigenere(message)
+        print(key)
+        save(decoded_message)
+        
+    if what_to_decode[2]:
+        path=r'.\\Message\\message6.txt'
+        message = open_file(path)
+        decoded_message, key = Vigenere(message)
+        print(key)
+        save(decoded_message)
+        
+    if what_to_decode[3]:
+        path=r'.\\Message\\message7.txt' 
+        message = open_file(path)
+        decoded_message, key = Vigenere(message)
+        print(key)
+        save(decoded_message)
 
     
     
