@@ -10,7 +10,7 @@ for loop in range(1, 9): #creates a list of paths to the messages and a list of 
     message_path.append('.\\Message\\message{}.txt'.format(loop))
     message_decode_path.append('decoded_message_{}.txt'.format(loop))
 
-decoding_functions = [Scytale, Cesar, Cesar, Vigenere, Vigenere, Vigenere] # list of decoding functions for each message
+decoding_functions = [Scytale, Cesar, Cesar, Vigenere, Vigenere, Vigenere, Vigenere] # list of decoding functions for each message
 
 for message_num, decode_func in enumerate(decoding_functions):
     

@@ -1,4 +1,4 @@
-from rotor_enigma import rotor, rotor_inverser
+from rotor_enigma import rotor, rotor_inverser, message_8_num
 from common import open_file, save
 import multiprocessing
 
@@ -36,23 +36,11 @@ def addition_long(position, b, rayon = 256):
         position[i], remainder = s % rayon, s//rayon
     return position
 
-def encode_enigma(rotor_num, encode_position, message, rayon = 256):
-    newmessage = ""
-    for char in message:
-        num_char = ord(char)
-        for i in range(len(rotor_num)):
-            rotor_i = rotor_num[i]
-            num_char=(num_char+encode_position[i])%rayon
-            num_char=(rotor[rotor_i][num_char])
-            num_char=(num_char-encode_position[i])%rayon
-        newmessage += chr(num_char)
-        encode_position = addition_long(encode_position,1)
-    return newmessage
 
 def decode_enigma(rotor_num, decode_position, message, rayon = 256):
     newmessage = ""
     for char in message:
-        num_char = ord(char)
+        num_char = char
         for i in range(len(rotor_num)-1,-1,-1):
             rotor_i = rotor_num[i]
             num_char=(num_char+decode_position[i])%rayon
@@ -84,8 +72,8 @@ def post_process_results(results):
         if result is not None:
             
             # Reopen the message file
-            message = open_file(__path__)
-            length = len(message)
+            message = message_8_num
+            length=len(message)
             
             # Get the rotor_num and position from the result
             rotor_num, position = result[1], result[2]
@@ -113,7 +101,6 @@ def check_decode():
     print("decode_enigma working properly")
 
 if __name__ == "__main__":
-    check_decode()
     __path__ = r'.\\Message\\message8.txt'
     # Open the last 4 char message file
     message = open_file(__path__)[-4::]
