@@ -69,15 +69,15 @@ def frequency_analysis(message,safety=True):
     sorted_items = sorted(char_count.items(),
                           key=lambda item: item[1], reverse=True)
     first_common_char = sorted_items[0][0]
-    secound_common_char = sorted_items[1][0]
+    second_common_char = sorted_items[1][0]
     if safety:
-    # check if the most common character is space and the secound most common is an 'e'
-        if ord(" ") - ord(first_common_char) == ord("e") - ord(secound_common_char):
+    # check if the most common character is space and the second most common is an 'e'
+        if ord(" ") - ord(first_common_char) == ord("e") - ord(second_common_char):
             key = ord(" ") - ord(first_common_char)
             return key
         
         else:
-            logging.error(str(ord(" ") - ord(first_common_char)) +"  "+ str(ord("e") - ord(secound_common_char)))
+            logging.error(str(ord(" ") - ord(first_common_char)) +"  "+ str(ord("e") - ord(second_common_char)))
             raise ValueError(
                 "The message is probably not encoded with a Cesar algorithm\n the most common characters are not space or an 'e' in that order")
     else:

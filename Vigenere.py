@@ -98,7 +98,7 @@ def find_Vigenere_key_length(message, distance, max_key_length=100,):
 
 def Vigenere(message, max_key_length=100, distance=1):
     """
-    Decode a message encoded with a Vigenere algorithm with an unknown key (value and lenth).
+    Decode a message encoded with a Vigenere algorithm with an unknown key (value and length).
 
     Args:
         message (str): The message to be encoded.
@@ -109,7 +109,7 @@ def Vigenere(message, max_key_length=100, distance=1):
     Returns:
         tuple: A tuple containing the decoded message and the Vigenere key used.
     """
-    #TODO: fix this. Fuck spaghetti code. Also Fuck recurstion. Fun fact NASA banned recurtion in there codes because it was too error prone and too difficult for a human to follow/understand.
+    #TODO: fix this. Fuck spaghetti code. Also Fuck recursion. Fun fact NASA banned recursion in there codes because it was too error prone and too difficult for a human to follow/understand.
     if distance <= max_key_length: # a bit of a hack to avoid infinite recursion
         try:
             key_length = find_Vigenere_key_length(message, distance, max_key_length)
@@ -126,7 +126,7 @@ def Vigenere(message, max_key_length=100, distance=1):
             return Vigenere(message, max_key_length, distance*2)
     else:
         try:
-            #desperate attempt to find the key. this just considers the most common lettre is space and DOESN'T  check if the second most common letter is e
+            #desperate attempt to find the key. this just considers the most common letter is space and DOESN'T  check if the second most common letter is e
             logging.warning("Unable to find a key length with the given distance. Trying without checking if e and space are the most common letters.")
             key_length=find_Vigenere_key_length(message, max_key_length, max_key_length)
             separated_message,key = [],[]

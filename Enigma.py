@@ -48,7 +48,7 @@ def multithreaded(message,rotor_nums):
 
 
 def addition_long(number_in_base, number_to_add, base=256):
-    """an addition function with diffrent base
+    """an addition function with different base
 
     Parameters
     ----------
@@ -98,7 +98,7 @@ def encode_enigma(rotor_num, encode_position, message, radius=256):
     Parameters
     ----------
     rotor_num : list of int
-        the numers of the rotors to use
+        the numbers of the rotors to use
     encode_position : list of int
         the initial position of the rotors
     message : str
@@ -129,7 +129,7 @@ def decode_enigma(rotor_num, decode_position, message, radius=256):
     Parameters
     ----------
     rotor_num : list of int
-        the numers of the rotors to use
+        the numbers of the rotors to use
     encode_position : list of int
         the initial position of the rotors
     message : str
@@ -222,7 +222,7 @@ def Enigma(message):
 
 
 def post_process_results(results, message):
-    """This fucntion processes the results of the Enigma function. When exploring the rotor_num and position, we only decoded the last 4 characters of the message. This function decodes the entire message and saves it to a file.
+    """This function processes the results of the Enigma function. When exploring the rotor_num and position, we only decoded the last 4 characters of the message. This function decodes the entire message and saves it to a file.
 
     Parameters
     ----------
