@@ -1,7 +1,7 @@
 # Description: This file contains the functions to decode a message encoded with a Vignere algorithm with a different unknown key for even and odd letters
 import matplotlib.pyplot as plt
-from common import open_file, save, frequency_analysis, frequency_analysis_no_safety
-
+from common import open_file, save, frequency_analysis
+import logging
 
 def find_Vigenere_key_length(message, distance, max_key_length=100,):
     """
@@ -69,11 +69,12 @@ def find_Vigenere_key_length(message, distance, max_key_length=100,):
             if message[letter_index] == message[letter_index - key]:
                 repetition += 1
         possible_key_length.append(repetition)
-    """ plt.figure()
-    plt.plot(possible_key_length)
-    plt.show() """
+        
+    
+        
+    
     peaks = find_peaks(possible_key_length, distance)
-    # print(peaks)
+    logging.debug(peaks)
 
     # find the greatest common divisor of the number of repetitions for each key length. We add 1 to each peak because index 0 corresponds to a key length of 1.
     gcd_value = peaks[0]+1
@@ -85,7 +86,13 @@ def find_Vigenere_key_length(message, distance, max_key_length=100,):
         raise ValueError(
             "No key length found \n reassess if the message is long enough or try to increase max_key_length/distance \n check if the message is encoded with a Vigenere algorithm")
 
-    print("Most likely key length : ", gcd_value)
+    logging.info(f"Most likely key length : {gcd_value}")
+    if logging.getLogger().getEffectiveLevel()==10:
+        logging.getLogger('matplotlib').setLevel(logging.WARNING)
+        logging.getLogger('PIL').setLevel(logging.WARNING)
+        plt.figure()
+        plt.plot(possible_key_length)
+        plt.show()
     return gcd_value
 
 
@@ -102,30 +109,30 @@ def Vigenere(message, max_key_length=100, distance=1):
     Returns:
         tuple: A tuple containing the decoded message and the Vigenere key used.
     """
-    #TODO: fix this. Fuck spagettie code. Also Fuck recurstion. Fun fact NASA banned recurtion in there codes because it was too error prone and too difficult for a human to follow/understand.
+    #TODO: fix this. Fuck spaghetti code. Also Fuck recurstion. Fun fact NASA banned recurtion in there codes because it was too error prone and too difficult for a human to follow/understand.
     if distance <= max_key_length: # a bit of a hack to avoid infinite recursion
         try:
             key_length = find_Vigenere_key_length(message, distance, max_key_length)
-            separated_message, key = [], []  # list of messages separated by key length
+            separated_message,key = [],[]  # list of messages separated by key length
 
             # separate the message into as many messages as the key length. Each message is now encoded with a Caesar cipher with a different key. We can use frequency analysis to find the key for each message.
             for i in range(key_length):
                 separated_message.append(message[i::key_length])
                 key.append(frequency_analysis(separated_message[i]))
                 
-        except:
+        except ValueError:
             # if no key is found, try again with a greater distance between peaks.
-            print("No key length found with distance =", distance)
+            logging.debug(f"No key length found with distance = {distance}")
             return Vigenere(message, max_key_length, distance*2)
     else:
         try:
             #desperate attempt to find the key. this just considers the most common lettre is space and DOESN'T  check if the second most common letter is e
-            print("here")
+            logging.warning("Unable to find a key length with the given distance. Trying without checking if e and space are the most common letters.")
             key_length=find_Vigenere_key_length(message, max_key_length, max_key_length)
-            separated_message, key = [], []
+            separated_message,key = [],[]
             for i in range(key_length):
                 separated_message.append(message[i::key_length])
-                key.append(frequency_analysis_no_safety(separated_message[i]))
+                key.append(frequency_analysis(separated_message[i],False))
         except:
             raise ValueError("No key length found \n reassess if the message is long enough or try to increase max_key_length/distance \n check if the message is encoded with a Vigenere algorithm")
 
@@ -152,46 +159,42 @@ def decode(message, key):
     return newmessage
 
 
-def plot(possible_key):
-    for i in range(len(possible_key)):
-        plt.plot(i, possible_key[i][1], 'r.')
-    plt.show(block=False)
 
 
 if __name__ == "__main__":
-    what_to_decode =[True,True,True,True]
+    logging.basicConfig(level=logging.DEBUG, format='%(levelname)s-%(asctime)s : %(message)s', datefmt='%H:%M:%S')
+    
+    what_to_decode =[False,False,False,True]
     if what_to_decode[0]:
-        path=r'.\\Message\\message4.txt'
+        path=r'.\Messages\Encoded_messages\message_4.txt'
         message = open_file(path)
         decoded_message, key = Vigenere(message)
-        print(key)
+        logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+        logging.info(f"Key= {key}")
         save(decoded_message)
 
     if what_to_decode[1]:
-        path=r'.\\Message\\message5.txt'
+        path=r'.\Messages\Encoded_messages\message_5.txt'
         message = open_file(path)
         decoded_message, key = Vigenere(message)
-        print(key)
+        logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+        logging.info(f"Key= {key}")
         save(decoded_message)
         
     if what_to_decode[2]:
-        path=r'.\\Message\\message6.txt'
+        path=r'.\Messages\Encoded_messages\message_6.txt'
         message = open_file(path)
         decoded_message, key = Vigenere(message)
-        print(key)
+        logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+        logging.info(f"Key= {key}")
         save(decoded_message)
         
     if what_to_decode[3]:
-        path=r'.\\Message\\message7.txt' 
+        path=r'.\Messages\Encoded_messages\message_7.txt'
         message = open_file(path)
         decoded_message, key = Vigenere(message)
-        print(key)
+        logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+        logging.info(f"Key= {key}")
         save(decoded_message)
 
-    
-    
-    
-    # print(key)
-    
-    
     

@@ -1,6 +1,7 @@
 # Description: This file contains the functions to decode a message encoded with a Scytale algorithm with an unknown key
 import matplotlib.pyplot as plt
 from common import open_file, save
+import logging
 common_word_list = ["le", "de", "un", "être", "et", "à", "il", "avoir", "ne", "je", "son", "que", "se", "qui", "ce", "dans", "en", "du", "elle", "au", "bonjour","Joël","--"]
 
 def find_most_likely(possible_width):
@@ -58,7 +59,7 @@ def brutforce_Scytale(message, max_key):
         
         if word_count != 0:
             possible_key.append((current_key, word_count))
-            print("Key =", current_key, "Word count =", word_count)
+            logging.debug("Key= " +str(current_key)+ " Word count= "+ str(word_count))
 
     return possible_key
 
@@ -106,10 +107,12 @@ def Scytale(message, max_key=500):
 if __name__ == "__main__":
     
     # decode the message and save it
-    
-    path=r'.\Message\message1.txt'
+    logging.basicConfig(level=logging.INFO, format='%(levelname)s-%(asctime)s : %(message)s', datefmt='%H:%M:%S')
+    path=r'.\Messages\Encoded_messages\message_1.txt'
     message = open_file(path)
     decoded_message, key = Scytale(message)
+    logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+    logging.info(f"Key= {key}")
     save (decoded_message)
     
     

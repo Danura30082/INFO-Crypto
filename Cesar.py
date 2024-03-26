@@ -1,6 +1,7 @@
 # Description: This file contains the functions to decode a message encoded with a Cesar algorithm with an unknown key
 import matplotlib.pyplot as plt
 from common import open_file, save, frequency_analysis
+import logging
 
 
 def decode(message, key):
@@ -33,16 +34,20 @@ def Cesar(message):
     return decode(message, key), key
     
 if __name__ == "__main__":
-    
+    logging.basicConfig(level=logging.INFO, format='%(levelname)s-%(asctime)s : %(message)s', datefmt='%H:%M:%S')
     # decode the messages and save them
     
-    path=r'.\Message\message2.txt'
+    path=r'.\Messages\Encoded_messages\message_2.txt'
     message = open_file(path)
-    decoded_message = Cesar(message)
+    decoded_message,key = Cesar(message)
+    logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+    logging.info(f"Key= {key}")
     save(decoded_message)
     
-    path=r'.\Message\message3.txt'
+    path=r'.\Messages\Encoded_messages\message_3.txt'
     message = open_file(path)
-    decoded_message = Cesar(message)
+    decoded_message,key = Cesar(message)
+    logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+    logging.info(f"Key= {key}")
     save(decoded_message)
     
