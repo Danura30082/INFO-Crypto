@@ -111,7 +111,7 @@ if __name__ == "__main__":
     path=r'.\Messages\Encoded_messages\message_1.txt'
     message = open_file(path)
     decoded_message, key = Scytale(message)
-    logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+    logging.info(f"{decoded_message[:100]} \n[...]\n {decoded_message[-100:]} \n")
     logging.info(f"Key= {key}")
     save (decoded_message)
     

@@ -40,14 +40,14 @@ if __name__ == "__main__":
     path=r'.\Messages\Encoded_messages\message_2.txt'
     message = open_file(path)
     decoded_message,key = Cesar(message)
-    logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+    logging.info(f"{decoded_message[:100]} \n[...]\n {decoded_message[-100:]} \n")
     logging.info(f"Key= {key}")
     save(decoded_message)
     
     path=r'.\Messages\Encoded_messages\message_3.txt'
     message = open_file(path)
     decoded_message,key = Cesar(message)
-    logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+    logging.info(f"{decoded_message[:100]} \n[...]\n {decoded_message[-100:]} \n")
     logging.info(f"Key= {key}")
     save(decoded_message)
     

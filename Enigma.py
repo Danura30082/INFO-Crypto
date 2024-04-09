@@ -250,7 +250,7 @@ def post_process_results(results, message):
                 rotor_num, position, message)
 
             # Print the last 300 characters of the decoded message and the final rotor_num and position
-            logging.info(f"{decoded_message[:100]} \n\n {decoded_message[-100:]} \n")
+            logging.info(f"{decoded_message[:100]} \n[...]\n {decoded_message[-100:]} \n")
             logging.info(f"Key= {position} {rotor_num}")
 
             # Save the decoded message
@@ -260,15 +260,13 @@ def post_process_results(results, message):
 def check_decode():
     """This function checks if the decode_enigma function is working properly
     """
-    clear_message = open_file(
-        r'.\Messages\Decoded_messages\message_7_enigma.txt')
-    from rotor_enigma import message_test
+    clear_message = open_file(r'.\Messages\Decoded_messages\Enigma_Check.txt')
+    from rotor_enigma import message_test # If i open the file in the encoded i get an error because when it was saved \r(carriage return) becomes \n(new line)
 
     message_test = check_message_format(message_test)
 
     # check decode working properly
-    assert clear_message == decode_enigma(
-        [0, 1, 2], [0, 0, 0], message_test)[0]
+    assert clear_message == decode_enigma([0, 1, 2], [0, 0, 0], message_test)[0]
     logging.info("decode_enigma working properly")
 
 
@@ -305,10 +303,14 @@ def check_message_format(message):
 
 if __name__ == "__main__":
     logging.basicConfig(
-        level=logging.INFO, format='%(levelname)s-%(asctime)s : %(message)s', datefmt='%H:%M:%S')
-    check_decode()
+        level=logging.DEBUG, format='%(levelname)s-%(asctime)s : %(message)s', datefmt='%H:%M:%S')
+    
     __path__ = r'.\Messages\Encoded_messages\message_8.txt'
     # Open the last 4 char message file
     message = open_file(__path__)
     message = check_message_format(message)
-    Enigma(message)
+    #Enigma(message)
+    print(message[-4::])
+    print((chr(message[-4])+ chr(message[-3])+ chr(message[-2])+ chr(message[-1]), [5, 1, 7], [64, 109, 126]))
+    print(decode_enigma([5, 1, 7], [64, 109, 126], message[-4::]))
+    print([ord ('J'), ord('o'), ord('ë'), ord('l')])
