@@ -99,7 +99,7 @@ def find_Vigenere_key_length(message, max_key_length=100):
         mean = statistics.mean(possible_key_length)
         axs[1].axhline(mean, color='k', linestyle='--', label='Mean')
         axs[1].plot(smoothing(possible_key_length, 1), label='Smoothed data')
-        plt.show()
+        
 
     # find the greatest common divisor of the number of repetitions for each key length. We add 1 to each peak because index 0 corresponds to a key length of 1.
     gcd_value = peaks[0]+1
@@ -209,6 +209,7 @@ if __name__ == "__main__":
         logging.info(f"{decoded_message[:100]} \n[...]\n {decoded_message[-100:]} \n")
         logging.info(f"Key= {key}")
         save(decoded_message)
-
+        
+    plt.show()
 
     

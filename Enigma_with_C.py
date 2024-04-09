@@ -137,10 +137,9 @@ def Enigma(message):
     results = []
     rotor_nums = [[0, 1, 2], [0, 2, 1], [1, 0, 2],[5,1,7],[1, 2, 0], [2, 0, 1], [2, 1, 0]]
     for rotor_num in rotor_nums:
-        results.append(call_brute_force_enigma(short_message, rotor_num))
-        
-    # results = [None, ('Joël', [5, 1, 7], [64, 109, 126])]
-    # Override the results for testing
+        result = call_brute_force_enigma(short_message, rotor_num)
+        if result is not None:
+            results.append(result)
     post_process_results(results, message)
 
 def post_process_results(results, message):

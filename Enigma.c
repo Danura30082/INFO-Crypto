@@ -6,6 +6,7 @@
 #define MAX_POSITION_LENGTH 3
 #define RADIUS 256
 #define BASE 256
+
 // Assume rotor_inverser is a 2D array defined elsewhere
 int rotor_inverser[8][256] = {
     {106, 33, 209, 10, 109, 78, 45, 233, 203, 214, 37, 93, 114, 165, 197, 127, 14, 182, 58, 128, 194, 15, 241, 245, 162, 153, 96, 220, 140, 250, 227, 20, 208, 92, 21, 3, 196, 207, 57, 121, 50, 115, 221, 25, 5, 74, 102, 36, 63, 252, 190, 138, 249, 61, 9, 224, 120, 89, 231, 80, 236, 19, 51, 24, 167, 133, 87, 201, 23, 122, 123, 141, 13, 191, 31, 81, 85, 2, 200, 60, 8, 177, 222, 189, 82, 212, 132, 28, 247, 4, 79, 75, 6, 172, 170, 204, 49, 218, 136, 232, 94, 105, 217, 234, 35, 108, 169, 119, 195, 176, 38, 150, 147, 161, 103, 107, 206, 145, 193, 244, 237, 97, 157, 56, 41, 240, 173, 84, 90, 22, 112, 148, 86, 210, 76, 159, 27, 238, 198, 211, 67, 151, 239, 69, 53, 73, 251, 113, 253, 116, 71, 255, 48, 42, 104, 110, 168, 11, 126, 205, 39, 47, 68, 235, 17, 88, 188, 149, 55, 142, 44, 43, 52, 1, 202, 54, 184, 139, 146, 215, 246, 242, 137, 154, 65, 171, 64, 111, 40, 228, 166, 12, 254, 34, 185, 223, 129, 29, 230, 101, 16, 164, 18, 95, 248, 152, 46, 229, 158, 243, 66, 0, 175, 98, 7, 183, 100, 91, 181, 117, 187, 130, 144, 163, 180, 192, 186, 213, 62, 155, 156, 135, 26, 219, 125, 72, 131, 179, 124, 118, 178, 143, 59, 134, 199, 160, 225, 99, 77, 83, 32, 30, 226, 70, 174, 216},
@@ -17,37 +18,15 @@ int rotor_inverser[8][256] = {
     {150, 121, 211, 128, 145, 25, 254, 242, 225, 215, 123, 49, 187, 226, 78, 252, 202, 233, 55, 140, 167, 133, 13, 255, 29, 231, 19, 171, 40, 179, 160, 229, 129, 190, 64, 142, 21, 223, 213, 99, 164, 90, 210, 27, 3, 112, 208, 163, 139, 74, 4, 91, 79, 220, 245, 50, 238, 147, 100, 26, 114, 138, 52, 193, 206, 117, 148, 75, 181, 168, 188, 88, 1, 81, 156, 216, 152, 60, 22, 240, 132, 250, 28, 6, 36, 124, 191, 54, 108, 72, 180, 111, 243, 169, 110, 201, 39, 33, 207, 159, 14, 199, 212, 236, 194, 70, 0, 94, 58, 42, 7, 46, 65, 158, 198, 53, 8, 122, 137, 9, 104, 170, 115, 234, 182, 157, 18, 80, 47, 5, 20, 77, 45, 102, 126, 61, 76, 89, 31, 59, 224, 186, 44, 155, 116, 227, 185, 92, 109, 228, 32, 69, 184, 232, 219, 73, 120, 71, 68, 43, 125, 95, 98, 165, 24, 149, 176, 62, 237, 246, 189, 141, 244, 239, 30, 101, 113, 166, 218, 214, 34, 17, 11, 10, 105, 235, 197, 248, 241, 217, 127, 51, 106, 247, 97, 253, 86, 192, 119, 154, 177, 205, 12, 118, 153, 48, 103, 251, 82, 23, 230, 83, 203, 144, 249, 66, 85, 178, 162, 63, 204, 41, 175, 135, 57, 15, 130, 200, 16, 195, 136, 134, 107, 35, 84, 37, 67, 38, 173, 56, 209, 221, 196, 183, 151, 143, 174, 93, 161, 131, 222, 96, 2, 146, 87, 172},
     {163, 227, 14, 82, 158, 241, 96, 169, 251, 119, 13, 160, 187, 211, 164, 65, 217, 10, 244, 39, 216, 148, 237, 27, 86, 103, 56, 195, 208, 182, 104, 247, 88, 147, 206, 87, 127, 42, 189, 83, 194, 145, 50, 20, 48, 120, 186, 131, 4, 125, 63, 151, 202, 30, 123, 220, 33, 108, 34, 100, 172, 161, 153, 110, 25, 59, 71, 134, 179, 37, 155, 170, 180, 254, 84, 219, 94, 154, 92, 28, 140, 67, 222, 32, 111, 149, 38, 168, 49, 2, 212, 133, 117, 141, 159, 228, 156, 3, 209, 128, 137, 122, 11, 236, 74, 107, 64, 12, 248, 47, 235, 238, 40, 55, 114, 184, 233, 60, 229, 69, 231, 15, 22, 46, 192, 43, 24, 250, 135, 93, 79, 8, 26, 98, 23, 215, 99, 176, 190, 243, 97, 62, 53, 19, 252, 85, 124, 183, 91, 203, 223, 45, 31, 16, 221, 144, 44, 113, 109, 115, 224, 143, 41, 57, 17, 68, 193, 204, 157, 214, 152, 240, 9, 102, 52, 18, 199, 146, 239, 6, 175, 188, 90, 77, 35, 81, 106, 185, 139, 136, 167, 178, 78, 5, 101, 166, 205, 181, 225, 54, 234, 197, 196, 21, 201, 73, 230, 171, 249, 138, 58, 36, 200, 177, 162, 0, 1, 150, 89, 255, 207, 116, 105, 112, 213, 121, 198, 80, 210, 218, 174, 165, 61, 129, 76, 118, 173, 132, 130, 253, 75, 7, 232, 72, 126, 242, 191, 246, 95, 70, 29, 51, 66, 245, 142, 226}};
 
-int *addition_long(int number_in_base[MAX_POSITION_LENGTH], int number_to_add)
+int *addition_long(int number_in_base[MAX_POSITION_LENGTH])
 {
-    int convert_to_base[MAX_POSITION_LENGTH] = {0};
-    //printf("number_in_base= [%d, %d, %d]\n", number_in_base[0], number_in_base[1], number_in_base[2]);
-    // printf("number_to_add= %d\n", number_to_add);
-    //  Convert number_to_add to base
-    int d = number_to_add;
-    int i = 0;
-    while (d > 0)
-    {
-        convert_to_base[i] = d % BASE;
-        d = d / BASE;
-        i++;
-    }
-
-    // Check if number_to_add_in_base is longer than number_in_base
-    if (i > MAX_POSITION_LENGTH)
-    {
-        printf("Error: number_to_add is longer than the number_in_base, this is not supported yet.\n");
-        return NULL;
-    }
-
-    // Add number_to_add_in_base to number_in_base
-    for (i = 0; i < MAX_POSITION_LENGTH; i++)
-    {
-        number_in_base[i] += convert_to_base[i];
-    }
+    // Add one to number_in_base
+    //printf("Number_in_base = [%d, %d, %d]\n", number_in_base[0], number_in_base[1], number_in_base[2]);
+    number_in_base[0] += 1;
 
     // Handle carry
     int remainder = 0;
-    for (i = 0; i < MAX_POSITION_LENGTH; i++)
+    for (int i = 0; i < MAX_POSITION_LENGTH; i++)
     {
         int s = number_in_base[i] + remainder;
         number_in_base[i] = s % BASE;
@@ -56,87 +35,74 @@ int *addition_long(int number_in_base[MAX_POSITION_LENGTH], int number_to_add)
     return number_in_base;
 }
 
-void decode_enigma(int rotor_num[MAX_POSITION_LENGTH], int decode_position[MAX_POSITION_LENGTH], int *message, int *newmessage)
+int decode_enigma(int rotor_num[MAX_POSITION_LENGTH], int decode_position[MAX_POSITION_LENGTH], int char_value)
 {
-    int char_value;
     /* printf("rotor_num= [%d, %d, %d]\n", rotor_num[0], rotor_num[1], rotor_num[2]);
     printf("decode_position= [%d, %d, %d]\n", decode_position[0], decode_position[1], decode_position[2]); */
-    for (size_t j = 0; j < MAX_MESSAGE_LENGTH; j++)
+    if (char_value < 0)
     {
-        char_value = message[j];
+        char_value += BASE;
+    }
+
+    for (int i = MAX_POSITION_LENGTH - 1; i >= 0; i--)
+    {
+        char_value = (char_value + decode_position[i]) % BASE;
         if (char_value < 0)
         {
             char_value += BASE;
         }
-
-        for (int i = MAX_POSITION_LENGTH - 1; i >= 0; i--)
+        char_value = rotor_inverser[rotor_num[i]][char_value];
+        char_value = (char_value - decode_position[i]) % BASE;
+        if (char_value < 0)
         {
-            char_value = (char_value + decode_position[i]) % BASE;
-            if (char_value < 0)
-            {
-                char_value += BASE;
-            }
-            char_value = rotor_inverser[rotor_num[i]][char_value];
-            char_value = (char_value - decode_position[i]) % BASE;
-            if (char_value < 0)
-            {
-                char_value += BASE;
-            }
+            char_value += BASE;
         }
-        newmessage[j] = char_value;
-        // Assume addition_long is a function that increments decode_position
-        addition_long(decode_position, 1);
     }
+    return char_value;
+    // Assume addition_long is a function that increments decode_position
 }
 
 void brute_force_enigma(int *message, int **rotor_num, int **position, int attempts)
 {
-    printf("Starting on rotor_num [%d, %d, %d]\n", *rotor_num[0], *rotor_num[1], *rotor_num[2]);
-    
-
     int position_copy[MAX_POSITION_LENGTH] = {0};
-    int local_message_test[MAX_MESSAGE_LENGTH] = {0};
+    printf("Starting on rotor_num [%d, %d, %d]\n", *rotor_num[0], *rotor_num[1], *rotor_num[2]);
     int rotor_num_test[] = {*rotor_num[0], *rotor_num[1], *rotor_num[2]};
+
     for (int i = 0; i < attempts; i++)
     {
         // Assume decode_enigma is a function that modifies local_message_test
-        for (int j = 0; j < MAX_POSITION_LENGTH; j++)
+        for (int j = 0; j < MAX_POSITION_LENGTH; j++){position_copy[j] = *position[j];}
+        if (decode_enigma(rotor_num_test, position_copy, message[0]) == 74)
         {
-            position_copy[j] = *position[j];
-        }
-        decode_enigma(rotor_num_test, position_copy, message, local_message_test);
-        if (memcmp(local_message_test, (int[]){74, 111, 235, 108}, sizeof(local_message_test)) == 0)
-        {
-            printf("[%d, %d, %d, %d]\n",
-                   local_message_test[0], local_message_test[1], local_message_test[2], local_message_test[3]);
-            printf("\"Joël\" found in the message with position = [%d, %d, %d] and rotor_num = [%d, %d, %d]\n",
-                   *position[0], *position[1], *position[2], *rotor_num[0], *rotor_num[1], *rotor_num[2]);
-            //*rotor_num_test = rotor_num;
-            //*position_test = position;
-            return;
-        }
-        //printf("Position: [%d, %d, %d]\n", *position[0], *position[1], *position[2]);
-        for (int j = 0; j < MAX_POSITION_LENGTH; j++)
-        {
-            position_copy[j] = *position[j];
-        }
-        //printf("position copy: [%d, %d, %d]\n", position_copy[0], position_copy[1], position_copy[2]);
-        addition_long(position_copy, 1);
-        //printf("position copy: [%d, %d, %d]\n", position_copy[0], position_copy[1], position_copy[2]);
-        for (int j = 0; j < MAX_POSITION_LENGTH; j++)
-        {
-            *position[j] = position_copy[j];
+            addition_long(position_copy);
+            if (decode_enigma(rotor_num_test, position_copy, message[1]) == 111)
+            {
+                addition_long(position_copy);
+                if (decode_enigma(rotor_num_test, position_copy, message[2]) == 235)
+                {
+                    addition_long(position_copy);
+                    if (decode_enigma(rotor_num_test, position_copy, message[3]) == 108)
+                    {
+
+                        printf("\"Joël\" found in the message with position = [%d, %d, %d] and rotor_num = [%d, %d, %d]\n",*position[0], *position[1], *position[2], *rotor_num[0], *rotor_num[1], *rotor_num[2]);
+                        //*rotor_num_test = rotor_num;
+                        //*position_test = position;
+                        return;
+                    }
+                }
+            }
         }
         //printf("Position: [%d, %d, %d]\n", *position[0], *position[1], *position[2]);
-        /* if (position == NULL || rotor_num == NULL)
-        {
-            printf("Null pointer error\n");
-            return;
-        } */
+        for (int j = 0; j < MAX_POSITION_LENGTH; j++){position_copy[j] = *position[j];}
+        addition_long(position_copy);
+        //position = addition_long((int[]){*position[0], *position[1], *position[2]});
+        for (int j = 0; j < MAX_POSITION_LENGTH; j++){*position[j] = position_copy[j];}
+        // printf("Position: [%d, %d, %d]\n", *position[0], *position[1], *position[2]);
+
 
         if (*position[0] == 0 && *position[1] == 0 && *position[2] == 0)
         {
-            printf("rotor [%d,%d,%d] is done\n", *rotor_num[0], *rotor_num[1], *rotor_num[2]);
+            printf("Done   with   rotor   [%d, %d, %d]\n", *rotor_num[0], *rotor_num[1], *rotor_num[2]);
             int *no_result = malloc(sizeof(int));
             if (no_result == NULL)
             {
@@ -161,10 +127,12 @@ void brute_force_enigma(int *message, int **rotor_num, int **position, int attem
 
 int main()
 {
-    decode_enigma((int[]){5, 1, 7}, (int[]){64, 109, 126}, (int[]){32, 192, 129, 176}, (int[]){0, 0, 0, 0});
     int *rotor_num[] = {(int[]){5}, (int[]){1}, (int[]){7}};
     int *positions[] = {(int[]){0}, (int[]){0}, (int[]){0}};
     brute_force_enigma((int[]){32, 192, 129, 176}, rotor_num, positions, 16777216);
+    int *rotor_num_bis[] = {(int[]){4}, (int[]){1}, (int[]){7}};
+    int *positions_bis[] = {(int[]){0}, (int[]){0}, (int[]){0}};
+    brute_force_enigma((int[]){32, 192, 129, 176}, rotor_num_bis, positions_bis, 16777216);
     /* int positions[] = {0, 0, 0};
     for (int i = 0; i < 500; i++)
     {

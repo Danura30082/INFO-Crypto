@@ -11,12 +11,13 @@ import time
 libc = ctypes.CDLL('./Enigma.so')
 
 # Define the argument types and return type
-libc.brute_force_enigma.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.POINTER(ctypes.c_int)), ctypes.POINTER(ctypes.POINTER(ctypes.c_int)), ctypes.c_int]
+libc.brute_force_enigma.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.POINTER(
+    ctypes.POINTER(ctypes.c_int)), ctypes.POINTER(ctypes.POINTER(ctypes.c_int)), ctypes.c_int]
 libc.brute_force_enigma.restype = None
 
 
 # Now you can call the function with your parameters
-def call_brute_force_enigma(message, rotor_num, position=[0,0,0], attempts=256**3):
+def call_brute_force_enigma(message, rotor_num, position=[0, 0, 0], attempts=256**3):
     message_c = (ctypes.c_int * len(message))(*message)
     rotor_num_c = (ctypes.POINTER(ctypes.c_int) * len(rotor_num))()
     position_c = (ctypes.POINTER(ctypes.c_int) * len(position))()
@@ -34,6 +35,7 @@ def call_brute_force_enigma(message, rotor_num, position=[0,0,0], attempts=256**
         return None
 
     return [[rotor_num_c[i].contents.value for i in range(3)], [position_c[i].contents.value for i in range(3)]]
+
 
 def addition_long(number_in_base, number_to_add, base=256):
     """an addition function with different base
@@ -70,7 +72,8 @@ def addition_long(number_in_base, number_to_add, base=256):
         return position
     number_to_add_in_base = convert_to_base(number_to_add, base)
     if len(number_to_add_in_base) > len(number_in_base):
-        raise ValueError("b is longer than the number_in_base, this is not supported yet.")
+        raise ValueError(
+            "b is longer than the number_in_base, this is not supported yet.")
     for i in range(len(number_to_add_in_base)):
         number_in_base[i] += number_to_add_in_base[i]
     remainder = 0
@@ -112,6 +115,7 @@ def decode_enigma(rotor_num, decode_position, message, radius=256):
         decode_position = addition_long(decode_position, 1)
     return newmessage, decode_position, rotor_num
 
+
 def Enigma(message):
     """This function tries to decode a message using the Enigma machine
 
@@ -134,17 +138,16 @@ def Enigma(message):
         # Add the rotor_num to the list
         rotor_nums.append(rotor_num)
 
-   
     short_message = message[-4::]
     short_message = [ord(char) for char in short_message]
     results = []
-    #rotor_nums = [[0, 1, 2], [0, 2, 1], [1, 0, 2],[5,1,7],[1, 2, 0], [2, 0, 1], [2, 1, 0]]
+    #rotor_nums = [[0, 1, 2], [0, 2, 1], [1, 0, 2], [5, 1, 7], [1, 2, 0], [2, 0, 1], [2, 1, 0]]
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        results = list(executor.map(call_brute_force_enigma, [short_message]*len(rotor_nums), rotor_nums))
-        
-    # results = [None, ('Joël', [5, 1, 7], [64, 109, 126])]
-    # Override the results for testing
+        results = list(executor.map(call_brute_force_enigma, [
+                       short_message]*len(rotor_nums), rotor_nums))
+    print(results)
     post_process_results(results, message)
+
 
 def post_process_results(results, message):
     """This function processes the results of the Enigma function. When exploring the rotor_num and position, we only decoded the last 4 characters of the message. This function decodes the entire message and saves it to a file.
@@ -161,7 +164,6 @@ def post_process_results(results, message):
     for result in results:
         if result is not None:
 
-        
             # Get the rotor_num and position from the result
             rotor_num, position = result[0], result[1]
 
@@ -176,7 +178,8 @@ def post_process_results(results, message):
             end_time = time.time()
 
             # Print the last 300 characters of the decoded message and the final rotor_num and position
-            logging.info(f"{decoded_message[:100]} \n[...]\n {decoded_message[-100:]} \n")
+            logging.info(
+                f"{decoded_message[:100]} \n[...]\n {decoded_message[-100:]} \n")
             logging.info(f"Key= {position} {rotor_num}")
             logging.info(f"Time: {end_time - start_time}")
 
@@ -184,15 +187,11 @@ def post_process_results(results, message):
             save(result[0])
 
 
-
-
-
-
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.DEBUG, format='%(levelname)s-%(asctime)s : %(message)s', datefmt='%H:%M:%S')
     __path__ = r'.\Messages\Encoded_messages\message_8.txt'
-    
+
     message = open_file(__path__)
     start_time = time.time()
     Enigma(message)
